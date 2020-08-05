@@ -24,6 +24,7 @@ function first(){
     $.ajax({
         type: 'GET',
         url: "http://cors-anywhere.herokuapp.com/http://www.metaweather.com/api/location/search/?query="+search,
+        connection: 'Keep-Alive',
         success: function(data){
             //clear current spans in result div
             $('#results').find('span').remove();            
@@ -51,12 +52,13 @@ function final(a){
    $.ajax({
            type: 'GET',
            url: "http://cors-anywhere.herokuapp.com/http://www.metaweather.com/api/location/"+a,
+           connection: 'Keep-Alive',
            success: function(data){
                $('#results').find('span').remove();
                //create var fordata.consolidated_weather
                var fiveDay = data.consolidated_weather;                
                //iterate through
-               $('#results').append(`<span class="location"><h2>${data.title} </h2></span>`);
+               $('#results').append(`<span class="location"><h2>${data.title} </h2><div id="wrap"></div></span>`);
                for(var j =0;j<fiveDay.length;j++){
                    //create var for max temp
                    var high = Math.round(fiveDay[j].max_temp);
@@ -64,11 +66,11 @@ function final(a){
                    var low = Math.round(fiveDay[j].min_temp);
                    var day = new Date(fiveDay[j].applicable_date);
                    //sppend each[i] to a span
-                    $('.location').append(`<span id="contents"><h3>${day.toDateString()} </h3>
+                    $('#wrap').append(`<div id="contents"><h3>${day.toDateString()} </h3>
                        <div class="cloud"><img src="http://www.metaweather.com/static/img/weather/${fiveDay[j].weather_state_abbr}.svg"/></div>
                        <div class="weather_state">${fiveDay[j].weather_state_name}</div>
                        <div class="high">High of ${faren(high)}\u00B0 F</div>
-                       <div class= "low">Low of ${faren(low)}\u00B0 F</div></span>`);
+                       <div class= "low">Low of ${faren(low)}\u00B0 F</div></div>`);
                }                
            }
        })}
@@ -78,18 +80,27 @@ function faren(x){
 var convert = Math.round((x *1.8)+32);
 return convert; 
 }
-
-/*function news(n){
-    $.ajax({
-        type: 'GET',
-        url: 'http://cors-anywhere.herokuapp.com/http://newsapi.org/v2/everything?q='+n+'&apiKey=35c51ede6c2c48e09f6b49170d3a5b27',
-        success: function(data){
-           console.log(data);
-        }
-    })
-}*/
-
-   
-
-    
+//add clock to the top of screen
+function clock(){
+    var currentTime = new Date();
+var currentHours = currentTime.getHours();
+var currentMinutes = currentTime.getMinutes();
+var currentSeconds = currentTime.getSeconds();
+//add 0 to time if it is under 10
+currentMinutes=(currentMinutes<10? "0" :"")+currentMinutes;
+currentSeconds=(currentSeconds<10? "0" : "")+currentSeconds;
+//add am or pm depending on the hour time
+var timeOfDay =(currentHours <12)? "AM":"PM";
+//make clock only go from 1-12
+currentHours = (currentHours>12)? currentHours - 12 :currentHours;
+currentHours = (currentHours==0 )? 12 :currentHours
+//combine the clock values
+var currentTimeString = `${currentHours}:${currentMinutes}:${currentSeconds} ${timeOfDay}`;
+//add value to span
+$('#clock').html(`${currentTimeString}`)
+}
+//add span for clock to sit in
+$('.bg').prepend(`<span id='clock'></span>`);
+//set interval to keep clock updating
+setInterval(clock,1000);
 

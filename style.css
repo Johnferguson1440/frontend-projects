@@ -1,5 +1,6 @@
 body, html {
     height: 100%;
+    background-size: cover;
   }
   
   .bg {
@@ -16,12 +17,13 @@ body, html {
   }
 
 #banner {
-    margin:auto;
+    padding: 2%;
     text-align: center;
     
 }
 #search {
     margin:auto;
+    margin-bottom: 1%;
     text-align: center;
 }
 h1{
@@ -37,20 +39,38 @@ h2{
 }
 h3{
     font-size: 30px;
+    vertical-align: top;
 }
 #contents {
     font-size:20px;
+    width: 10%;
     color: aliceblue;
     display: inline-block;
     margin:auto;
     text-align: center;
-    margin-left: 4%;
-    margin-right: 4%;
-    margin-top: 5%;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 .location{
     font-size: 30px;
     color: aliceblue;
     text-align: center;
     margin: auto;
+    
+}
+#clock{
+    text-align: left;
+    padding-top: 2%;
+    margin-top: 2%;
+    font-size: 25px;   
+    color: aqua;
+    font-size: 30px;
+}
+#wrap{
+    height:66.67vh;
+    width: 100%;
+    background-size: cover;
+    flex-direction: column;
+    position: absolute;
+    overflow: hidden;
 }
